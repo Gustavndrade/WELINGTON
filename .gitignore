@@ -1,0 +1,32 @@
+# Maven
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+*.iml
+*.iws
+.eclipse
+.classpath
+.project
+.settings/
+*.sts4-cache
+
+# Spring Boot
+*.log
+spring.log
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
+# Configurações locais sensíveis (não versionar)
+# application-local.properties
+
+# Especificações (já versionadas)
+# specs/
