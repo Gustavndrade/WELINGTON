@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veículos Cadastrados — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <h1>🚗 Sistema de Aluguel de Carros</h1>
+    <p>Gerenciamento de veículos da frota</p>
+</header>
+
+<main>
+
+    <!-- Mensagem de sucesso (flash attribute) -->
+    <div class="alerta alerta-sucesso"
+         th:if="${mensagemSucesso}"
+         th:text="${mensagemSucesso}">
+        Operação realizada com sucesso!
+    </div>
+
+    <div class="card">
+
+        <!-- Barra de ações: título + botão novo -->
+        <div class="barra-acoes">
+            <h2 class="titulo-secao" style="border: none; margin: 0; padding: 0;">
+                Veículos Cadastrados
+            </h2>
+            <a th:href="@{/veiculos/novo}" class="btn btn-primario">
+                + Novo Veículo
+            </a>
+        </div>
+
+        <!-- Lista vazia -->
+        <div class="lista-vazia" th:if="${#lists.isEmpty(veiculos)}">
+            <p>Nenhum veículo cadastrado ainda.</p>
+            <a th:href="@{/veiculos/novo}" class="btn btn-primario">
+                + Cadastrar primeiro veículo
+            </a>
+        </div>
+
+        <!-- Tabela de veículos -->
+        <table class="tabela-veiculos" th:unless="${#lists.isEmpty(veiculos)}">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Modelo</th>
+                    <th>Marca</th>
+                    <th>Ano</th>
+                    <th>Placa</th>
+                    <th>Valor Diária</th>
+                    <th>Disponível</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="v : ${veiculos}">
+                    <td th:text="${v.id}">1</td>
+                    <td th:text="${v.modelo}">Civic</td>
+                    <td th:text="${v.marca}">Honda</td>
+                    <td th:text="${v.ano}">2022</td>
+                    <td th:text="${v.placa}">ABC1234</td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(v.valorDiaria, 1, 'POINT', 2, 'COMMA')}">
+                        R$ 150,00
+                    </td>
+                    <td>
+                        <span class="badge-disponivel"
+                              th:class="${v.disponivel} ? 'badge-disponivel badge-sim' : 'badge-disponivel badge-nao'"
+                              th:text="${v.disponivel} ? 'Sim' : 'Não'">
+                            Sim
+                        </span>
+                    </td>
+                    <td>
+                        <div class="acoes">
+                            <!-- Botão Editar -->
+                            <a th:href="@{/veiculos/{id}/editar(id=${v.id})}"
+                               class="btn btn-primario btn-sm">
+                                ✏️ Editar
+                            </a>
+                            <!-- Formulário de Exclusão (POST) -->
+                            <form th:action="@{/veiculos/{id}/excluir(id=${v.id})}"
+                                  method="post"
+                                  onsubmit="return confirm('Confirma a exclusão do veículo ' + '[[${v.modelo}]]' + '?')">
+                                <button type="submit" class="btn btn-perigo btn-sm">
+                                    🗑️ Excluir
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+
+</body>
+</html>
