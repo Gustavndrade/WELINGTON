@@ -1,0 +1,176 @@
+TRABALHO INDIVIDUAL
+Desenvolvimento de Sistemas Web II
+Sistema Web com Spring Boot e PostgreSQL
+
+Proposta de avaliação individual baseada nos conteúdos desenvolvidos até a Aula 06, contemplando Spring MVC, Thymeleaf, Bean Validation, arquitetura em camadas, Spring Data JPA e persistência com PostgreSQL.
+
+1. Objetivo do trabalho
+Desenvolver individualmente uma aplicação Web utilizando Java e Spring Boot, aplicando os conteúdos estudados até a Aula 06. A aplicação deverá possuir uma entidade principal, formulário com validação, persistência em PostgreSQL e operações completas de CRUD.
+O trabalho tem como objetivo avaliar a capacidade de integrar os conceitos de desenvolvimento Web abordados na disciplina em uma aplicação funcional, organizada e persistente.
+2. Tema do sistema
+Cada aluno deverá escolher um tema para seu sistema. Recomenda-se evitar temas idênticos entre os alunos, de modo a estimular soluções próprias e diferentes modelos de dados.
+Exemplos de temas possíveis:
+•	Cadastro de livros
+•	Cadastro de produtos
+•	Cadastro de clientes
+•	Cadastro de funcionários
+•	Cadastro de filmes
+•	Cadastro de jogos
+•	Cadastro de veículos
+•	Cadastro de equipamentos
+•	Cadastro de eventos
+•	Cadastro de cursos
+•	Cadastro de receitas
+•	Cadastro de animais
+•	Cadastro de serviços
+•	Cadastro de imóveis
+•	Cadastro de músicas
+A entidade principal deverá possuir no mínimo 5 atributos, além do identificador (id).
+3. Exemplo de entidade
+Exemplo para um sistema de cadastro de livros:
+Atributo	Exemplo
+id	1
+titulo	Dom Casmurro
+autor	Machado de Assis
+categoria	Romance
+ano	1899
+preco	45,90
+4. Tecnologias obrigatórias
+O projeto deverá utilizar obrigatoriamente:
+•	Java
+•	Spring Boot
+•	Spring MVC
+•	Thymeleaf
+•	Bean Validation
+•	Spring Data JPA
+•	Hibernate
+•	PostgreSQL
+•	Maven
+5. Arquitetura do projeto
+A aplicação deverá seguir a arquitetura em camadas:
+Controller  →  Service  →  Repository  →  Banco de Dados
+Estrutura mínima esperada:
+src/main/java
+└── pacote.principal
+    ├── controller
+    │   └── EntidadeController.java
+    ├── model
+    │   └── Entidade.java
+    ├── service
+    │   └── EntidadeService.java
+    └── repository
+        └── EntidadeRepository.java
+
+src/main/resources
+├── templates
+│   ├── formulario.html
+│   └── lista.html
+├── static
+│   └── css
+│       └── style.css
+└── application.properties
+6. Requisitos funcionais obrigatórios
+6.1 Cadastro
+O sistema deverá possuir uma página de cadastro com formulário Thymeleaf. O formulário deverá utilizar th:object, th:field e th:action.
+6.2 Validação
+A entidade deverá utilizar Bean Validation. Devem ser utilizadas pelo menos 3 anotações diferentes, adequadas ao tipo de dado informado.
+•	@NotBlank
+•	@NotNull
+•	@Size
+•	@Email
+•	@Min
+•	@Max
+As mensagens de erro deverão ser exibidas no formulário e os valores corretamente preenchidos deverão ser preservados quando houver erro de validação.
+6.3 Persistência
+A entidade deverá utilizar:
+•	@Entity
+•	@Id
+•	@GeneratedValue
+Os dados deverão ser armazenados em um banco PostgreSQL. O banco pode ser instalado localmente ou executado em Docker.
+6.4 Repository
+Deverá existir um Repository que estenda JpaRepository.
+6.5 Service
+A camada Service deverá possuir, no mínimo, os métodos:
+•	salvar()
+•	listarTodos()
+•	buscarPorId()
+•	excluir()
+6.6 CRUD completo
+Operação	Função no sistema	Resultado esperado
+Create	Cadastrar um novo registro	Registro gravado no PostgreSQL
+Read	Listar os registros cadastrados	Dados apresentados em tabela
+Update	Editar um registro existente	Registro atualizado no banco
+Delete	Excluir um registro	Registro removido do banco
+7. Interface da aplicação
+A aplicação deverá possuir, no mínimo:
+•	Página de listagem
+•	Página de cadastro/edição
+•	Botão para novo registro
+•	Botão para editar
+•	Botão para excluir
+•	Mensagens de validação
+•	Arquivo CSS próprio com organização visual adequada
+Não é obrigatório utilizar Bootstrap ou outro framework CSS. O foco está no conteúdo estudado em sala.
+8. Configuração do banco de dados
+A conexão com PostgreSQL deverá ser configurada no arquivo application.properties. A configuração deverá conter URL JDBC, usuário, senha e propriedades necessárias ao JPA/Hibernate.
+spring.datasource.url=jdbc:postgresql://localhost:5432/nome_banco
+spring.datasource.username=usuario
+spring.datasource.password=senha
+spring.jpa.hibernate.ddl-auto=update
+9. Organização e qualidade do código
+O código deverá apresentar:
+•	Nomes claros para classes, atributos, métodos e arquivos
+•	Separação adequada entre Controller, Service e Repository
+•	Indentação e formatação consistentes
+•	Ausência de código desnecessário
+•	Estrutura coerente com o tema escolhido
+10. Entrega
+O aluno deverá entregar:
+•	Projeto completo compactado em arquivo ZIP
+•	Arquivo pom.xml
+•	Pasta src completa
+•	Arquivo application.properties
+•	Arquivo README.md
+O arquivo README.md deverá conter:
+•	Nome do aluno
+•	Nome do sistema
+•	Descrição resumida do sistema
+•	Tecnologias utilizadas
+•	Nome do banco de dados
+•	Instruções básicas para execução
+11. Apresentação individual
+Durante a apresentação, o aluno deverá demonstrar:
+1.	Inicialização da aplicação
+2.	Cadastro de um registro
+3.	Validação de um campo incorreto ou vazio
+4.	Registro persistido no banco
+5.	Listagem dos registros
+6.	Edição de um registro
+7.	Exclusão de um registro
+8.	Estrutura Controller → Service → Repository
+Durante a apresentação poderão ser feitas perguntas sobre o funcionamento do código e sobre as decisões adotadas na implementação.
+12. Critérios de avaliação
+Critério	Valor
+Estrutura do projeto e arquitetura em camadas	1,5
+Cadastro e formulário	1,0
+Bean Validation	1,0
+Persistência PostgreSQL	1,5
+Listagem dos registros	1,0
+Edição	1,0
+Exclusão	1,0
+Organização e qualidade do código	1,0
+Interface e usabilidade	0,5
+Apresentação individual	0,5
+TOTAL	10,0
+13. Conteúdos não obrigatórios
+Para manter o trabalho limitado ao conteúdo desenvolvido até a Aula 06, não será obrigatório utilizar:
+•	Relacionamentos @OneToMany / @ManyToOne
+•	Paginação
+•	Consultas personalizadas
+•	API REST
+•	Spring Security
+•	DTOs
+•	JavaScript
+14. Síntese do trabalho
+Spring MVC + Thymeleaf + Bean Validation + Arquitetura em Camadas + Spring Data JPA + PostgreSQL + CRUD
+O trabalho deverá demonstrar que o aluno consegue integrar os principais conteúdos desenvolvidos até a Aula 06 em uma aplicação Web funcional, persistente e organizada.
