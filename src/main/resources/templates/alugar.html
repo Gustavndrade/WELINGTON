@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alugar Veículo — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .erro-validacao {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🚗 Sistema de Aluguel de Carros</h1>
+    <p>Aluguel de Veículo</p>
+</header>
+
+<main>
+    <div class="card">
+        <h2 class="titulo-secao">Alugar: <span th:text="${veiculo.modelo} + ' - ' + ${veiculo.marca}"></span></h2>
+        
+        <form th:action="@{/veiculos/{id}/alugar(id=${veiculo.id})}" th:object="${rentalRequest}" method="post">
+            
+            <!-- Pass the carId implicitly but it's set in controller, or we can use hidden field -->
+            <input type="hidden" th:field="*{carId}" />
+
+            <div class="form-group">
+                <label for="renterName">Nome do Locatário</label>
+                <input type="text" id="renterName" th:field="*{renterName}" class="form-control" placeholder="Ex: João da Silva" />
+                <span class="erro-validacao" th:if="${#fields.hasErrors('renterName')}" th:errors="*{renterName}">Erro no nome</span>
+            </div>
+
+            <div class="form-group">
+                <label for="renterContact">Contato (Telefone/Documento)</label>
+                <input type="text" id="renterContact" th:field="*{renterContact}" class="form-control" placeholder="Ex: (11) 98765-4321" />
+                <span class="erro-validacao" th:if="${#fields.hasErrors('renterContact')}" th:errors="*{renterContact}">Erro no contato</span>
+            </div>
+
+            <div class="form-group">
+                <label for="rentalStartDate">Data e Hora de Retirada</label>
+                <input type="datetime-local" id="rentalStartDate" th:field="*{rentalStartDate}" class="form-control" />
+                <span class="erro-validacao" th:if="${#fields.hasErrors('rentalStartDate')}" th:errors="*{rentalStartDate}">Erro na data</span>
+            </div>
+
+            <div class="form-group">
+                <label for="expectedReturnDate">Data e Hora Prevista de Devolução</label>
+                <input type="datetime-local" id="expectedReturnDate" th:field="*{expectedReturnDate}" class="form-control" />
+                <span class="erro-validacao" th:if="${#fields.hasErrors('expectedReturnDate')}" th:errors="*{expectedReturnDate}">Erro na data</span>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="submit" class="btn btn-sucesso">Confirmar Aluguel</button>
+                <a th:href="@{/veiculos}" class="btn btn-secundario">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+
+</body>
+</html>

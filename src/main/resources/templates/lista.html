@@ -80,6 +80,11 @@
                                class="btn btn-primario btn-sm">
                                 ✏️ Editar
                             </a>
+                            <!-- Botão Alugar -->
+                            <a th:if="${v.disponivel}" th:href="@{/veiculos/{id}/alugar(id=${v.id})}"
+                               class="btn btn-sucesso btn-sm" style="background-color: #28a745; color: white;">
+                                🚗 Alugar
+                            </a>
                             <!-- Formulário de Exclusão (POST) -->
                             <form th:action="@{/veiculos/{id}/excluir(id=${v.id})}"
                                   method="post"

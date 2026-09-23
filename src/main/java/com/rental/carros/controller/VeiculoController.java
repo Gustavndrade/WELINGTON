@@ -2,6 +2,8 @@ package com.rental.carros.controller;
 
 import com.rental.carros.model.Veiculo;
 import com.rental.carros.service.VeiculoService;
+import com.rental.carros.dto.RentalRequest;
+import com.rental.carros.service.RentalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class VeiculoController {
 
     @Autowired
     private VeiculoService veiculoService;
+
+    @Autowired
+    private RentalService rentalService;
 
     /**
      * GET /veiculos — Lista todos os veículos cadastrados.
@@ -92,5 +97,46 @@ public class VeiculoController {
         veiculoService.excluir(id);
         attrs.addFlashAttribute("mensagemSucesso", "Veículo excluído com sucesso!");
         return "redirect:/veiculos";
+    }
+
+    /**
+     * GET /veiculos/{id}/alugar — Exibe formulário para alugar o veículo.
+     */
+    @GetMapping("/{id}/alugar")
+    public String formAlugar(@PathVariable Long id, Model model) {
+        Veiculo veiculo = veiculoService.buscarPorId(id);
+        if (!Boolean.TRUE.equals(veiculo.getDisponivel())) {
+            return "redirect:/veiculos";
+        }
+        model.addAttribute("veiculo", veiculo);
+        RentalRequest request = new RentalRequest();
+        request.setCarId(id);
+        model.addAttribute("rentalRequest", request);
+        return "alugar";
+    }
+
+    /**
+     * POST /veiculos/{id}/alugar — Processa o aluguel do veículo.
+     */
+    @PostMapping("/{id}/alugar")
+    public String processarAluguel(@PathVariable Long id, 
+                                   @Valid RentalRequest rentalRequest, 
+                                   BindingResult resultado, 
+                                   Model model,
+                                   RedirectAttributes attrs) {
+        if (resultado.hasErrors()) {
+            model.addAttribute("veiculo", veiculoService.buscarPorId(id));
+            return "alugar";
+        }
+        try {
+            rentalRequest.setCarId(id);
+            rentalService.rentCar(rentalRequest);
+            attrs.addFlashAttribute("mensagemSucesso", "Veículo alugado com sucesso!");
+            return "redirect:/veiculos";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("veiculo", veiculoService.buscarPorId(id));
+            model.addAttribute("erro", e.getMessage()); // We can show this in the view, but not strictly needed if we just return
+            return "alugar";
+        }
     }
 }

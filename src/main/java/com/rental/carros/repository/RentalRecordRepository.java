@@ -1,0 +1,9 @@
+package com.rental.carros.repository;
+
+import com.rental.carros.model.RentalRecord;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RentalRecordRepository extends JpaRepository<RentalRecord, Long> {
+}
