@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus aluguéis — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: cliente}"></header>
+
+<main>
+    <div class="alerta alerta-sucesso" th:if="${sucesso}" th:text="${sucesso}"></div>
+    <div class="alerta alerta-erro" th:if="${erro}" th:text="${erro}"></div>
+
+    <div class="card">
+        <div class="barra-acoes">
+            <h2 class="titulo-secao" style="border: none; margin: 0; padding: 0;">Meus aluguéis</h2>
+            <a class="btn btn-primario" th:href="@{/catalogo}">Ver catálogo</a>
+        </div>
+        <p class="subtitulo">Inclui o histórico de cancelamentos. Cancelar não apaga o registro.</p>
+
+        <div class="lista-vazia" th:if="${#lists.isEmpty(alugueis)}">
+            <p>Você ainda não possui aluguéis.</p>
+        </div>
+
+        <table class="tabela-veiculos" th:unless="${#lists.isEmpty(alugueis)}">
+            <thead>
+            <tr>
+                <th>Veículo</th>
+                <th>Placa</th>
+                <th>Retirada</th>
+                <th>Devolução</th>
+                <th>Situação</th>
+                <th>Ação</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${alugueis}">
+                <td th:text="${a.veiculo.marca + ' ' + a.veiculo.modelo}">Veículo</td>
+                <td th:text="${a.veiculo.placa}">ABC1D23</td>
+                <td th:text="${#temporals.format(a.rentalStartDate, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#temporals.format(a.expectedReturnDate, 'dd/MM/yyyy HH:mm')}"></td>
+                <td>
+                    <span class="badge-disponivel"
+                          th:classappend="${a.status != null and a.status.name() == 'ATIVO'} ? 'badge-sim' : 'badge-nao'"
+                          th:text="${a.status}">ATIVO</span>
+                    <div class="subtitulo" th:if="${a.dataCancelamento != null}"
+                         th:text="'em ' + ${#temporals.format(a.dataCancelamento, 'dd/MM/yyyy HH:mm')}"></div>
+                </td>
+                <td>
+                    <form th:if="${a.status != null and a.status.name() == 'ATIVO' and !a.jaIniciou()}"
+                          th:action="@{/meus-alugueis/{id}/cancelar(id=${a.id})}"
+                          method="post"
+                          onsubmit="return confirm('Cancelar este aluguel?');">
+                        <button type="submit" class="btn btn-perigo btn-sm">Cancelar</button>
+                    </form>
+                    <span class="subtitulo"
+                          th:if="${a.status != null and a.status.name() == 'ATIVO' and a.jaIniciou()}">Aluguel iniciado</span>
+                    <span class="subtitulo"
+                          th:if="${a.status != null and a.status.name() == 'CANCELADO'}">Cancelado</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="alerta alerta-sucesso" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}"></div>
+    <div class="alerta alerta-erro" th:if="${mensagemErro}" th:text="${mensagemErro}"></div>
+
+    <div class="card">
+        <div class="barra-acoes">
+            <h2 class="titulo-secao" style="border: none; margin: 0; padding: 0;">Clientes</h2>
+            <a th:href="@{/clientes/novo}" class="btn btn-primario">+ Novo cliente</a>
+        </div>
+
+        <div class="lista-vazia" th:if="${#lists.isEmpty(clientes)}">
+            <p>Nenhum cliente cadastrado ainda.</p>
+        </div>
+
+        <table class="tabela-veiculos" th:unless="${#lists.isEmpty(clientes)}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Documento</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="c : ${clientes}">
+                <td th:text="${c.id}">1</td>
+                <td th:text="${c.nome}">Nome</td>
+                <td th:text="${c.email}">email</td>
+                <td th:text="${c.telefone}">telefone</td>
+                <td th:text="${c.documento}">documento</td>
+                <td>
+                    <div class="acoes">
+                        <a th:href="@{/clientes/editar/{id}(id=${c.id})}" class="btn btn-primario btn-sm">Editar</a>
+                        <form th:action="@{/clientes/excluir/{id}(id=${c.id})}" method="post"
+                              onsubmit="return confirm('Excluir este cliente?');">
+                            <button type="submit" class="btn btn-perigo btn-sm">Excluir</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

@@ -1,8 +1,15 @@
 package com.rental.carros.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,29 +22,27 @@ public class RentalRecord {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "veiculo_id", nullable = false)
-    private Veiculo car;
+    private Veiculo veiculo;
 
-    @NotBlank(message = "Renter name is mandatory")
+    @ManyToOne
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    // Copia do cliente no momento do aluguel. Nao identifica o titular:
+    // a titularidade e o vinculo com Cliente.
     private String renterName;
-
-    @NotBlank(message = "Renter contact is mandatory")
     private String renterContact;
 
-    @NotNull(message = "Rental start date is mandatory")
     private LocalDateTime rentalStartDate;
 
-    @NotNull(message = "Expected return date is mandatory")
     private LocalDateTime expectedReturnDate;
 
-    public RentalRecord() {}
+    private LocalDateTime dataAluguel;
 
-    public RentalRecord(Veiculo car, String renterName, String renterContact, LocalDateTime rentalStartDate, LocalDateTime expectedReturnDate) {
-        this.car = car;
-        this.renterName = renterName;
-        this.renterContact = renterContact;
-        this.rentalStartDate = rentalStartDate;
-        this.expectedReturnDate = expectedReturnDate;
-    }
+    @Enumerated(EnumType.STRING)
+    private StatusAluguel status = StatusAluguel.ATIVO;
+
+    private LocalDateTime dataCancelamento;
 
     public Long getId() {
         return id;
@@ -47,12 +52,20 @@ public class RentalRecord {
         this.id = id;
     }
 
-    public Veiculo getCar() {
-        return car;
+    public Veiculo getVeiculo() {
+        return veiculo;
     }
 
-    public void setCar(Veiculo car) {
-        this.car = car;
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public String getRenterName() {
@@ -85,5 +98,40 @@ public class RentalRecord {
 
     public void setExpectedReturnDate(LocalDateTime expectedReturnDate) {
         this.expectedReturnDate = expectedReturnDate;
+    }
+
+    public LocalDateTime getDataAluguel() {
+        return dataAluguel;
+    }
+
+    public void setDataAluguel(LocalDateTime dataAluguel) {
+        this.dataAluguel = dataAluguel;
+    }
+
+    public StatusAluguel getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusAluguel status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getDataCancelamento() {
+        return dataCancelamento;
+    }
+
+    public void setDataCancelamento(LocalDateTime dataCancelamento) {
+        this.dataCancelamento = dataCancelamento;
+    }
+
+    /**
+     * Indica se a retirada ja comecou. Nome fora do padrao getter/is
+     * para nao ser tratado como propriedade persistente.
+     */
+    public boolean jaIniciou() {
+        if (rentalStartDate == null) {
+            return false;
+        }
+        return !rentalStartDate.isAfter(LocalDateTime.now());
     }
 }

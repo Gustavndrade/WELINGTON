@@ -8,10 +8,7 @@
 </head>
 <body>
 
-<header>
-    <h1>🚗 Sistema de Aluguel de Carros</h1>
-    <p>Gerenciamento de veículos da frota</p>
-</header>
+<header th:replace="~{fragments/menu :: admin}"></header>
 
 <main>
 
@@ -20,6 +17,11 @@
          th:if="${mensagemSucesso}"
          th:text="${mensagemSucesso}">
         Operação realizada com sucesso!
+    </div>
+    <div class="alerta alerta-erro"
+         th:if="${mensagemErro}"
+         th:text="${mensagemErro}">
+        Não foi possível concluir a operação.
     </div>
 
     <div class="card">
@@ -80,10 +82,9 @@
                                class="btn btn-primario btn-sm">
                                 ✏️ Editar
                             </a>
-                            <!-- Botão Alugar -->
-                            <a th:if="${v.disponivel}" th:href="@{/veiculos/{id}/alugar(id=${v.id})}"
-                               class="btn btn-sucesso btn-sm" style="background-color: #28a745; color: white;">
-                                🚗 Alugar
+                            <a th:href="@{/veiculos/{id}/alugueis(id=${v.id})}"
+                               class="btn btn-secundario btn-sm">
+                                Aluguéis
                             </a>
                             <!-- Formulário de Exclusão (POST) -->
                             <form th:action="@{/veiculos/{id}/excluir(id=${v.id})}"

@@ -315,3 +315,120 @@ footer {
     font-size: 0.8rem;
     margin-top: 2rem;
 }
+
+/* Cabeçalho com navegação */
+.header-barra {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+}
+
+header nav {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+header nav a {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+header form {
+    margin: 0;
+}
+
+header .btn-secundario {
+    background-color: white;
+    color: var(--cor-primaria);
+}
+
+/* Login e cadastro */
+body.pagina-auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+body.pagina-auth main {
+    width: 100%;
+    max-width: 480px;
+    margin: 0;
+}
+
+.subtitulo {
+    color: var(--cor-texto-secundario);
+    margin-bottom: 1rem;
+}
+
+.etiqueta {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--cor-primaria);
+    margin-bottom: 0.35rem;
+}
+
+.apresentacao h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.alerta-erro {
+    background-color: var(--cor-erro);
+    color: var(--cor-erro-texto);
+    border-left: 4px solid var(--cor-perigo);
+}
+
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.atalho {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 0;
+}
+
+.atalho h2 {
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+.grupo-campo input[type="email"],
+.grupo-campo input[type="password"],
+.grupo-campo input[type="datetime-local"] {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1.5px solid var(--cor-borda);
+    border-radius: var(--raio);
+    font-size: 0.9rem;
+    color: var(--cor-texto);
+    background-color: white;
+}
+
+.grupo-campo input[type="email"]:focus,
+.grupo-campo input[type="password"]:focus,
+.grupo-campo input[type="datetime-local"]:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(26, 86, 219, 0.15);
+}

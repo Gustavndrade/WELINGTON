@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Novo aluguel — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="card">
+        <h2 class="titulo-secao">Novo aluguel</h2>
+        <div class="alerta alerta-erro" th:if="${erro}" th:text="${erro}"></div>
+
+        <form class="formulario" th:action="@{/alugueis/salvar}" th:object="${aluguel}" method="post">
+            <div class="grupo-campo">
+                <label for="veiculoId">Veículo *</label>
+                <select id="veiculoId" th:field="*{veiculoId}"
+                        th:classappend="${#fields.hasErrors('veiculoId')} ? 'campo-erro'">
+                    <option value="">Selecione</option>
+                    <option th:each="v : ${veiculos}" th:value="${v.id}"
+                            th:text="${v.marca + ' ' + v.modelo + ' (' + v.placa + ') — ' + (v.disponivel ? 'disponível' : 'indisponível')}">
+                    </option>
+                </select>
+                <span class="mensagem-erro" th:errors="*{veiculoId}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="clienteId">Cliente *</label>
+                <select id="clienteId" th:field="*{clienteId}"
+                        th:classappend="${#fields.hasErrors('clienteId')} ? 'campo-erro'">
+                    <option value="">Selecione</option>
+                    <option th:each="c : ${clientes}" th:value="${c.id}"
+                            th:text="${c.nome + ' — ' + c.email}"></option>
+                </select>
+                <span class="mensagem-erro" th:errors="*{clienteId}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="retirada">Retirada *</label>
+                <input id="retirada" type="datetime-local" th:field="*{retirada}"
+                       th:classappend="${#fields.hasErrors('retirada')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{retirada}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="devolucao">Devolução *</label>
+                <input id="devolucao" type="datetime-local" th:field="*{devolucao}"
+                       th:classappend="${#fields.hasErrors('devolucao')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{devolucao}"></span>
+            </div>
+            <div class="grupo-botoes">
+                <button class="btn btn-primario" type="submit">Registrar aluguel</button>
+                <a class="btn btn-secundario" th:href="@{/alugueis}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

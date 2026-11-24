@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluguéis — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="alerta alerta-sucesso" th:if="${mensagemSucesso}" th:text="${mensagemSucesso}"></div>
+
+    <div class="card">
+        <div class="barra-acoes">
+            <h2 class="titulo-secao" style="border: none; margin: 0; padding: 0;">Aluguéis</h2>
+            <a th:href="@{/alugueis/novo}" class="btn btn-primario">+ Novo aluguel</a>
+        </div>
+        <p class="subtitulo">Aluguéis ativos ocupam o veículo. O histórico de cancelados permanece.</p>
+
+        <div class="lista-vazia" th:if="${#lists.isEmpty(alugueis)}">
+            <p>Nenhum aluguel registrado.</p>
+        </div>
+
+        <table class="tabela-veiculos" th:unless="${#lists.isEmpty(alugueis)}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Veículo</th>
+                <th>Cliente</th>
+                <th>Retirada</th>
+                <th>Devolução</th>
+                <th>Situação</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${alugueis}">
+                <td th:text="${a.id}">1</td>
+                <td th:text="${a.veiculo.marca + ' ' + a.veiculo.modelo + ' (' + a.veiculo.placa + ')'}"></td>
+                <td th:text="${a.cliente != null ? a.cliente.nome : '—'}">Cliente</td>
+                <td th:text="${a.rentalStartDate != null ? #temporals.format(a.rentalStartDate, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+                <td th:text="${a.expectedReturnDate != null ? #temporals.format(a.expectedReturnDate, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+                <td>
+                    <span class="badge-disponivel"
+                          th:classappend="${a.status != null and a.status.name() == 'ATIVO'} ? 'badge-sim' : 'badge-nao'"
+                          th:text="${a.status != null ? a.status : '—'}">ATIVO</span>
+                </td>
+                <td>
+                    <form th:action="@{/alugueis/excluir/{id}(id=${a.id})}" method="post"
+                          onsubmit="return confirm('Excluir este aluguel do histórico?');">
+                        <button type="submit" class="btn btn-perigo btn-sm">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

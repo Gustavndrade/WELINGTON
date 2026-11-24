@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<th:block th:if="${admin}">
+    <header th:replace="~{fragments/menu :: admin}"></header>
+</th:block>
+<th:block th:unless="${admin}">
+    <header th:replace="~{fragments/menu :: cliente}"></header>
+</th:block>
+
+<main>
+    <section class="card apresentacao">
+        <p class="etiqueta">Sistema acadêmico</p>
+        <h1>Sistema de Aluguel de Carros</h1>
+        <p class="subtitulo">Olá, <span th:text="${usuario}">usuario</span>.</p>
+        <p class="subtitulo">Gerencie a frota ou alugue um veículo disponível.</p>
+        <a class="btn btn-primario" th:if="${admin}" th:href="@{/veiculos}">Ver veículos</a>
+        <a class="btn btn-primario" th:unless="${admin}" th:href="@{/catalogo}">Ver catálogo</a>
+    </section>
+
+    <section class="atalhos" th:if="${admin}">
+        <a class="card atalho" th:href="@{/veiculos}">
+            <h2>Veículos</h2>
+            <p>Cadastre e edite a frota.</p>
+        </a>
+        <a class="card atalho" th:href="@{/clientes}">
+            <h2>Clientes</h2>
+            <p>Gerencie os dados de contato.</p>
+        </a>
+        <a class="card atalho" th:href="@{/alugueis}">
+            <h2>Aluguéis</h2>
+            <p>Registre e acompanhe os contratos.</p>
+        </a>
+        <a class="card atalho" th:href="@{/relatorios}">
+            <h2>Relatórios</h2>
+            <p>Veja aluguéis ativos e o histórico.</p>
+        </a>
+    </section>
+
+    <section class="atalhos" th:unless="${admin}">
+        <a class="card atalho" th:href="@{/catalogo}">
+            <h2>Catálogo</h2>
+            <p>Veja os veículos disponíveis e alugue.</p>
+        </a>
+        <a class="card atalho" th:href="@{/meus-alugueis}">
+            <h2>Meus aluguéis</h2>
+            <p>Acompanhe ou cancele seus aluguéis.</p>
+        </a>
+    </section>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

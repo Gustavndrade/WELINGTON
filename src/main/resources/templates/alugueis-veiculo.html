@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluguéis do veículo — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="card">
+        <div class="barra-acoes">
+            <h2 class="titulo-secao" style="border: none; margin: 0; padding: 0;"
+                th:text="'Aluguéis de ' + ${veiculo.marca} + ' ' + ${veiculo.modelo} + ' (' + ${veiculo.placa} + ')'">
+                Aluguéis do veículo
+            </h2>
+            <a class="btn btn-secundario" th:href="@{/veiculos}">Voltar</a>
+        </div>
+
+        <div class="lista-vazia" th:if="${#lists.isEmpty(alugueis)}">
+            <p>Este veículo ainda não possui aluguéis.</p>
+        </div>
+
+        <table class="tabela-veiculos" th:unless="${#lists.isEmpty(alugueis)}">
+            <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Retirada</th>
+                <th>Devolução</th>
+                <th>Situação</th>
+                <th>Cancelamento</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="a : ${alugueis}">
+                <td th:text="${a.cliente != null ? a.cliente.nome : '—'}">Cliente</td>
+                <td th:text="${a.rentalStartDate != null ? #temporals.format(a.rentalStartDate, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+                <td th:text="${a.expectedReturnDate != null ? #temporals.format(a.expectedReturnDate, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+                <td>
+                    <span class="badge-disponivel"
+                          th:classappend="${a.status != null and a.status.name() == 'ATIVO'} ? 'badge-sim' : 'badge-nao'"
+                          th:text="${a.status != null ? a.status : '—'}"></span>
+                </td>
+                <td th:text="${a.dataCancelamento != null ? #temporals.format(a.dataCancelamento, 'dd/MM/yyyy HH:mm') : '—'}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

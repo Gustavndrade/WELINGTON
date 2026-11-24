@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar conta — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="pagina-auth">
+<main class="card">
+    <h1 class="titulo-secao">Criar conta de cliente</h1>
+    <p class="subtitulo">Crie sua conta para alugar veículos da frota.</p>
+
+    <form th:action="@{/cadastro}" th:object="${cadastro}" method="post">
+        <div class="grupo-campo">
+            <label for="nome">Nome completo</label>
+            <input id="nome" type="text" th:field="*{nome}"
+                   th:classappend="${#fields.hasErrors('nome')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{nome}"></span>
+        </div>
+        <div class="grupo-campo">
+            <label for="email">E-mail</label>
+            <input id="email" type="email" th:field="*{email}"
+                   th:classappend="${#fields.hasErrors('email')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{email}"></span>
+        </div>
+        <div class="grupo-campo">
+            <label for="telefone">Telefone</label>
+            <input id="telefone" type="text" th:field="*{telefone}"
+                   th:classappend="${#fields.hasErrors('telefone')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{telefone}"></span>
+        </div>
+        <div class="grupo-campo">
+            <label for="documento">Documento</label>
+            <input id="documento" type="text" th:field="*{documento}"
+                   th:classappend="${#fields.hasErrors('documento')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{documento}"></span>
+        </div>
+        <div class="grupo-campo">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" th:field="*{senha}" minlength="8"
+                   th:classappend="${#fields.hasErrors('senha')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{senha}"></span>
+        </div>
+        <div class="grupo-campo">
+            <label for="confirmacaoSenha">Confirmar senha</label>
+            <input id="confirmacaoSenha" type="password" th:field="*{confirmacaoSenha}"
+                   th:classappend="${#fields.hasErrors('confirmacaoSenha')} ? 'campo-erro'">
+            <span class="mensagem-erro" th:errors="*{confirmacaoSenha}"></span>
+        </div>
+        <div class="grupo-botoes">
+            <button class="btn btn-primario" type="submit">Cadastrar</button>
+            <a class="btn btn-secundario" th:href="@{/login}">Entrar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

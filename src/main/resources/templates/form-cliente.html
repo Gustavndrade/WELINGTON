@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${cliente.id != null} ? 'Editar cliente' : 'Novo cliente'">Cliente</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="card">
+        <h2 class="titulo-secao" th:text="${cliente.id != null} ? 'Editar cliente' : 'Novo cliente'">Cliente</h2>
+
+        <form class="formulario" th:action="@{/clientes/salvar}" th:object="${cliente}" method="post">
+            <input type="hidden" th:if="${cliente.id != null}" th:field="*{id}">
+
+            <div class="grupo-campo">
+                <label for="nome">Nome *</label>
+                <input id="nome" type="text" th:field="*{nome}"
+                       th:classappend="${#fields.hasErrors('nome')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{nome}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="email">E-mail *</label>
+                <input id="email" type="email" th:field="*{email}"
+                       th:classappend="${#fields.hasErrors('email')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{email}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="telefone">Telefone *</label>
+                <input id="telefone" type="text" th:field="*{telefone}"
+                       th:classappend="${#fields.hasErrors('telefone')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{telefone}"></span>
+            </div>
+            <div class="grupo-campo">
+                <label for="documento">Documento *</label>
+                <input id="documento" type="text" th:field="*{documento}"
+                       th:classappend="${#fields.hasErrors('documento')} ? 'campo-erro'">
+                <span class="mensagem-erro" th:errors="*{documento}"></span>
+            </div>
+            <div class="grupo-botoes">
+                <button class="btn btn-primario" type="submit">Salvar</button>
+                <a class="btn btn-secundario" th:href="@{/clientes}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

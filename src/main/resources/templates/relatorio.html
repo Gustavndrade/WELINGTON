@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: admin}"></header>
+
+<main>
+    <div class="card">
+        <h2 class="titulo-secao">Relatório geral</h2>
+        <div class="atalhos">
+            <div class="card atalho">
+                <h2 th:text="${totalVeiculos}">0</h2>
+                <p>Veículos</p>
+            </div>
+            <div class="card atalho">
+                <h2 th:text="${totalClientes}">0</h2>
+                <p>Clientes</p>
+            </div>
+            <div class="card atalho">
+                <h2 th:text="${alugueisAtivos}">0</h2>
+                <p>Aluguéis ativos</p>
+            </div>
+            <div class="card atalho">
+                <h2 th:text="${totalHistorico}">0</h2>
+                <p>Aluguéis (histórico)</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2 class="titulo-secao">Ocupação da frota</h2>
+        <table class="tabela-veiculos">
+            <thead>
+            <tr>
+                <th>Veículo</th>
+                <th>Placa</th>
+                <th>Disponível</th>
+                <th>Aluguel ativo</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o : ${ocupacoes}">
+                <td th:text="${o.descricao}">Veículo</td>
+                <td th:text="${o.placa}">placa</td>
+                <td>
+                    <span class="badge-disponivel"
+                          th:classappend="${o.disponivel} ? 'badge-sim' : 'badge-nao'"
+                          th:text="${o.disponivel} ? 'Sim' : 'Não'">Sim</span>
+                </td>
+                <td>
+                    <span class="badge-disponivel"
+                          th:classappend="${o.aluguelAtivo} ? 'badge-nao' : 'badge-sim'"
+                          th:text="${o.aluguelAtivo} ? 'Sim' : 'Não'">Não</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="lista-vazia" th:if="${#lists.isEmpty(ocupacoes)}">Nenhum veículo cadastrado.</p>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

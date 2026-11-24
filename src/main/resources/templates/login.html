@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="pagina-auth">
+<main class="card">
+    <h1 class="titulo-secao">Sistema de Aluguel de Carros</h1>
+    <p class="subtitulo">Acesse com seu e-mail e senha.</p>
+
+    <div class="alerta alerta-erro" th:if="${param.error}">
+        Usuário ou senha inválidos.
+    </div>
+    <div class="alerta alerta-sucesso" th:if="${param.logout}">
+        Sessão encerrada com sucesso.
+    </div>
+    <div class="alerta alerta-sucesso" th:if="${param.cadastro}">
+        Conta criada! Entre com seu e-mail e senha.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="grupo-campo">
+            <label for="username">E-mail</label>
+            <input id="username" name="username" type="email"
+                   placeholder="E-mail" autocomplete="username" required>
+        </div>
+        <div class="grupo-campo">
+            <label for="password">Senha</label>
+            <input id="password" name="password" type="password"
+                   placeholder="Senha" autocomplete="current-password" required>
+        </div>
+        <div class="grupo-botoes">
+            <button class="btn btn-primario" type="submit">Entrar</button>
+        </div>
+    </form>
+
+    <p class="subtitulo">Não possui conta?
+        <a th:href="@{/cadastro}">Cadastre-se</a>
+    </p>
+</main>
+</body>
+</html>

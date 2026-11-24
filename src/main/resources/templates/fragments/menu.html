@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="admin">
+    <div class="header-barra">
+        <div>
+            <h1><a th:href="@{/}">Sistema de Aluguel de Carros</a></h1>
+            <p>Área administrativa</p>
+        </div>
+        <nav>
+            <a th:href="@{/}">Início</a>
+            <a th:href="@{/veiculos}">Veículos</a>
+            <a th:href="@{/clientes}">Clientes</a>
+            <a th:href="@{/alugueis}">Aluguéis</a>
+            <a th:href="@{/relatorios}">Relatórios</a>
+        </nav>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-secundario btn-sm" type="submit">Sair</button>
+        </form>
+    </div>
+</header>
+
+<header th:fragment="cliente">
+    <div class="header-barra">
+        <div>
+            <h1><a th:href="@{/}">Sistema de Aluguel de Carros</a></h1>
+            <p>Área do cliente</p>
+        </div>
+        <nav>
+            <a th:href="@{/}">Início</a>
+            <a th:href="@{/catalogo}">Catálogo</a>
+            <a th:href="@{/meus-alugueis}">Meus aluguéis</a>
+        </nav>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-secundario btn-sm" type="submit">Sair</button>
+        </form>
+    </div>
+</header>
+
+</body>
+</html>

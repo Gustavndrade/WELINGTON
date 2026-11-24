@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo — Sistema de Aluguel de Carros</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:replace="~{fragments/menu :: cliente}"></header>
+
+<main>
+    <div class="alerta alerta-erro" th:if="${erro}" th:text="${erro}"></div>
+    <div class="alerta alerta-sucesso" th:if="${sucesso}" th:text="${sucesso}"></div>
+
+    <div class="card">
+        <h2 class="titulo-secao">Catálogo de veículos</h2>
+        <p class="subtitulo">Veículos disponíveis. O aluguel fica vinculado à sua conta.</p>
+    </div>
+
+    <div class="lista-vazia card" th:if="${#lists.isEmpty(veiculos)}">
+        <p>Nenhum veículo disponível no momento.</p>
+    </div>
+
+    <div class="grade" th:unless="${#lists.isEmpty(veiculos)}">
+        <article class="card" th:each="v : ${veiculos}">
+            <h2 th:text="${v.marca + ' ' + v.modelo}">Veículo</h2>
+            <p class="subtitulo" th:text="'Placa ' + ${v.placa} + ' · Ano ' + ${v.ano}"></p>
+            <p th:text="'Diária: R$ ' + ${#numbers.formatDecimal(v.valorDiaria, 1, 'POINT', 2, 'COMMA')}"></p>
+            <form th:action="@{/alugueis/meu}" method="post">
+                <input type="hidden" name="veiculoId" th:value="${v.id}">
+                <div class="grupo-campo">
+                    <label>Retirada</label>
+                    <input type="datetime-local" name="retirada" required>
+                </div>
+                <div class="grupo-campo">
+                    <label>Devolução</label>
+                    <input type="datetime-local" name="devolucao" required>
+                </div>
+                <button class="btn btn-primario" type="submit">Alugar</button>
+            </form>
+        </article>
+    </div>
+</main>
+
+<footer>
+    <p>Sistema de Aluguel de Carros — Desenvolvimento de Sistemas Web II</p>
+</footer>
+</body>
+</html>

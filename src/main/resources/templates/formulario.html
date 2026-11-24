@@ -10,12 +10,7 @@
 </head>
 <body>
 
-<header>
-    <h1>🚗 Sistema de Aluguel de Carros</h1>
-    <p th:text="${veiculo.id != null} ? 'Editando veículo existente' : 'Cadastrando novo veículo'">
-        Formulário de veículo
-    </p>
-</header>
+<header th:replace="~{fragments/menu :: admin}"></header>
 
 <main>
     <div class="card">
